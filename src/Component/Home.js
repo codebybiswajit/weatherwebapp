@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import cloud_img from '../Assests/weather-2-svgrepo-com.svg'
 
 export default function Home(props) {
@@ -11,27 +11,29 @@ export default function Home(props) {
   const [weatherDetails, setWeatherDetails] = useState(null);
   const [cityExists, setCityExists] = useState(true);
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    try {
-      const geocodeResponse = await fetch(geocodeUrl);
-      const geocodeData = await geocodeResponse.json();
-      if (geocodeData.length === 0) {
-        setCityExists(false);
-        setWeatherDetails(null);
-      } else {
-        setCityExists(true);
-        const response = await fetch(url);
-        const data = await response.json();
-        setWeatherDetails(data);
+     async function fetchData(){
+      setIsLoading(true);
+      try {
+        const geocodeResponse = await fetch(geocodeUrl);
+        const geocodeData = await geocodeResponse.json();
+        if (geocodeData.length === 0) {
+          setCityExists(false);
+          setWeatherDetails(null);
+        } else {
+          setCityExists(true);
+          const response = await fetch(url);
+          const data = await response.json();
+          setWeatherDetails(data);
+        }
+      } catch (e) {
+        alert(e.message);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (e) {
-      alert(e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+    };
+    useEffect(()=>{
+      fetchData()
+    },[])
 
   return (
     <div className='pt-2 ps-1 bg-dark text-light rounded-bottom container-fluid d-flex flex-column background-image shadow-lg max-height'>
