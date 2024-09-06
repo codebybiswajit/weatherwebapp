@@ -21,6 +21,7 @@ export default function Layout() {
             <div className="col-md-7 d-flex flex-column ">
               <Routes>
                 <Route path='/' element={<Home />} />
+                <Route path='/weatherwebapp' element={<Home />} />
                 <Route path='/search' element={<Home city={city} />} />
                 <Route path='/about' element={<About />} />
               </Routes>
